@@ -1,0 +1,247 @@
+.photoWall{
+  position: absolute;
+  background-color: #eae9e9;
+  width: 45%;
+  left: 20%;
+  top: 132px;
+  z-index: 0;
+  height: 5000px;
+
+}
+#icons{
+
+  display: inline;
+  position: fixed;
+  left: 65%;
+  min-width: 300px;
+}
+
+.item3 { grid-area: main;
+  padding-top: 80px;
+  height: 5000px;
+  background-color: #eae9e9;
+
+}
+.item4 { grid-area: right;
+  padding-top: 100px;
+  position: fixed;
+  left: 65%;
+  top: 102px;
+  width: 300px;
+  height: 400px;
+  background-color: #efeded;
+  z-index: 1;
+
+}
+.logo{
+  position: fixed;
+  font-size: 36px;
+  left: 20px;
+
+}
+.icon > svg{
+  height: 30px;
+  padding: 5px;
+  color: #2196F3;
+}
+
+button{
+  background-color: white;
+  border: none;
+  cursor: pointer;
+}
+input{
+  background-color: white;
+  cursor: pointer;
+}
+#search-input{
+  margin-right: 10%;
+  background-color: #ececec;
+  border-radius: 6px;
+}
+#search-input > input{
+  border: none;
+  border-radius: 10px;
+  background-color: #efefef;
+  padding: 12px;
+  font-size: 20px;
+
+}
+
+#commentInput{
+  font-size: 20px;
+  margin: 10px;
+  padding: 3px;
+  width: 70%;
+  border: none;
+  margin-right: 9%;
+}
+
+#submitBtn{
+  font-size: 22px;
+  color: #2196F3;
+  font-weight: bold;
+  border: none;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-areas:
+    'header header header header header header'
+    'main main main main main main';
+  gap: 10px;
+  background-color: #ffffff;
+}
+
+.post{
+  background-color: #ffffff;
+  width: 100%;
+  /*height: 25%;*/
+  margin: auto;
+  margin-bottom: 50px;
+  border-radius: 5px;
+  border: solid 1px lightgray;
+
+}
+.post > div{
+  width: 100%;
+
+}
+.addComment{
+  height: 4%;
+  background-color: white;
+  border-top: solid 1px #e7e7e7;
+
+}
+.title{
+  height: 50px;
+  background-color: white;
+  border-bottom: solid 1px #e7e7e7;
+  padding-top: 15px;
+}
+
+.title > .profImage{
+  width: 40px;
+  height: 40px;
+  margin-left: 25px;
+  border-radius: 20px;
+}
+.title > .profImage > img  {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+}
+.interactions{
+  height: 3%;
+  padding-top: 1%;
+  background-color: white;
+  border-top: solid 1px #e7e7e7;
+}
+.comments{
+  /*height: 16%;*/
+  background-color: white;
+}
+.comment{
+  font-size: 17px;
+  height: 25px;
+  padding: 10px;
+}
+.comment > div > label {
+  margin-right: 5px;
+}
+#deleteComm {
+  color: #b1b1b1;
+  font-weight: bold;
+  padding-left: 50px;
+  display: none;
+}
+.comment:hover #deleteComm{
+  display: inline;
+}
+
+
+.stats{
+  height: 2%;
+  background-color: white;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.stats>label{
+  font-weight: bold;
+  padding-left: 15px;
+}
+.post >.image{
+  height: 58%;
+  background-color: #ffffff;
+  text-align: center;
+}
+.image > img {
+  height: 100%;
+  width: 100%;
+}
+.title {  display: grid;
+  grid-template-columns: 0.1fr 0.9fr;
+  grid-template-rows: 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "profImage name";
+}
+
+.profImage { grid-area: profImage; }
+
+.name { grid-area: name;
+  font-size: 20px;
+  padding-left: 20px;
+  font-weight: bold;
+  padding-top: 5px;
+  cursor: pointer;
+}
+
+
+
+@media(max-width: 800px){
+
+  #commentInput{
+    width: 70%;
+    margin-right: 0px;
+
+  }
+
+}
+@media(max-width: 550px){
+  #commentInput{
+    width: 60%;
+    margin-right: 0px;
+  }
+}
+@media(max-width: 400px){
+
+  #submitBtn{
+    font-size: 17px;
+  }
+  #commentInput{
+    width: 50%;
+    margin-right: 0px;
+  }
+}
+@media(max-width: 1400px){
+  .item4{
+    display: none;
+  }
+  .photoWall{
+    left:5%;
+    width: 90%;
+  }
+
+}
+
+
+
+
+.postDescription {
+  /*height: 10%;*/
+  width: 80%;
+  padding-bottom: 10px;
+  padding-left: 3%;
+}

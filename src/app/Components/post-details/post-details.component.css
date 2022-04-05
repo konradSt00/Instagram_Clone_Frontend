@@ -1,0 +1,8 @@
+body{
+  background-color: #eaeaea;
+  padding-top: 110px;
+  padding-bottom: 15px;
+}
+#content{
+  display: flex; justify-content:center;
+}

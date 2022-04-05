@@ -1,0 +1,158 @@
+.container {  display: grid;
+  margin: auto;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 0.5fr 0.5fr 0.5fr 0.5fr 1fr;
+  gap: 0px 0px;
+  border: 1px #bfbfbf solid;
+  margin-bottom: 20px;
+  width: 400px;
+  height: 400px;
+  text-align: center;
+  background-color: white;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "logo"
+    "login"
+    "password"
+    "repeatPasswd"
+    "loginBtn"
+    "register";
+}
+.container > div > label > input{
+  width: 100%;
+  font-size: 17px;
+}
+.login > label{
+  width: 90%;
+}
+.logo { grid-area: logo;
+  font-size: 30px;
+  padding: 40px;
+}
+
+.login, .password, .repeatPasswd{
+  grid-area: login;
+  background-color: #f1f1f1;
+  width: 70%;
+  margin: auto auto 15px;
+  border: 1px #c7c7c7 solid;
+  border-radius: 3px;
+  text-align: left;
+  padding-left: 20px;
+
+}
+
+.password { grid-area: password;
+}
+.repeatPasswd{
+  grid-area: repeatPasswd;
+}
+.register { grid-area: register;
+  border: 1px #bfbfbf solid;
+  padding: 20px;
+  width: 360px;
+  margin: auto;
+  text-align: center;
+  background-color: white;
+}
+.loginBtn{
+  margin:auto;
+  background-color: #2196F3;
+  border-radius: 3px;
+  text-align: center;
+  padding: 5px;
+  grid-area: loginBtn;
+  width: 73%;
+}
+#showPsw{
+  font-size: 15px;
+  margin-left: 10px;
+  font-weight: bold;
+  color: #6d6d6d;
+}
+button{
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+.loginBtn > button{
+  font-weight: bold;
+  color: white;
+  width: 100%;
+
+}
+#information{
+  color: red;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.loginBtn > button:disabled{
+  background-color: #aad6f6;
+}
+
+.register > button{
+
+  color: #2196F3;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+body{
+  background-color: #e0e0e0;
+  height: 98vh;
+  padding-top: 10%;
+
+}
+
+label {
+  margin:8px 0;
+  margin-top: 13px;
+  position:relative;
+  display:inline-block;
+  width: 70%;
+}
+
+span {
+  padding:0px;
+  pointer-events: none;
+  position:absolute;
+  left:0;
+  top:0;
+  transition: 0.2s;
+  transition-timing-function: ease;
+  transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+  opacity:0.5;
+}
+input{
+  background-color: transparent;
+  border: none;
+  padding: 0px;
+}
+input:empty {
+  padding:0px;
+}
+
+input:not([value]) + span, input:not(:placeholder-shown) + span {
+  opacity:1;
+  transform: scale(0.75) translateY(-100%) translateX(-30px);
+}
+
+/* For IE Browsers*/
+input:not([value]) + span, input:not(:-ms-input-placeholder) + span {
+  opacity:1;
+  transform: scale(0.75) translateY(-100%) translateX(-30px);
+}
+input:focus{
+  outline: none;
+}
+input:focus > .login{
+  outline: none;
+  border: 1px black solid;
+}
+
+span{
+  color: #8d8d8d;
+}
+
