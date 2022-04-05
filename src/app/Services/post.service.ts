@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Post} from '../Models/Post';
 import {Comm} from '../Models/Comment';
 import {User} from '../Models/User';
-import {HttpClient, HttpEvent, HttpParams, HttpRequest} from '@angular/common/http';
+import {HttpClient, HttpEvent, HttpHeaders, HttpParams, HttpRequest} from '@angular/common/http';
 import {AbstractControl, FormBuilder, FormGroup} from '@angular/forms';
 import {API_ENDPOINT} from '../constants';
 import {Observable} from 'rxjs';
@@ -12,15 +12,20 @@ import {AuthService} from './auth.service';
   providedIn: 'root'
 })
 export class PostService {
-  postsList: Array<Post>;
+  postsList = new Array();
   commForm = this.formBuilder.group({});
 
-  constructor(private httpClient: HttpClient, private formBuilder: FormBuilder, private authService: AuthService) {
-    this.postsList = new Array<Post>();
-    this.downloadMainWallPosts();
+  constructor(private httpClient: HttpClient,
+              private formBuilder: FormBuilder,
+              private authService: AuthService) {
   }
   private downloadMainWallPosts(): void{
-    this.httpClient.get(API_ENDPOINT + '/main_wall' + '/' + localStorage.getItem('currentUser'))
+    const token = localStorage.getItem('token');
+    const header = {
+      headers: new HttpHeaders()
+        .set('Authorization',  `Bearer ${token}`)
+    };
+    this.httpClient.get(API_ENDPOINT + '/main_wall' + '/' + localStorage.getItem('currentUser'), header)
       .subscribe(data => {
         console.log(data);
         JSON.parse(JSON.stringify(data))
@@ -41,6 +46,10 @@ export class PostService {
     }
   }
   getPostList(): Array<Post>{
+    if (this.postsList.length === 0){
+      this.postsList = new Array<Post>();
+      this.downloadMainWallPosts();
+    }
     return this.postsList;
   }
 
@@ -66,7 +75,12 @@ export class PostService {
   }
   // tslint:disable-next-line:ban-types
   getSinglePost(postId: string): Observable<Object> {
-    return this.httpClient.get(API_ENDPOINT + '/pi/' + localStorage.getItem('currentUser') + '/' + postId);
+    const token = localStorage.getItem('token');
+    const header = {
+      headers: new HttpHeaders()
+        .set('Authorization',  `Bearer ${token}`)
+    };
+    return this.httpClient.get(API_ENDPOINT + '/pi/' + localStorage.getItem('currentUser') + '/' + postId, header);
   }
   deleteComment(post: Post, commID: number): void {
     post.commentsList = post.commentsList.filter(comment => comment.id !== commID);
@@ -74,7 +88,8 @@ export class PostService {
     // @ts-ignore
     this.sendHttpRequest('DELETE', API_ENDPOINT + '/p/' + post.id + '/' + commID).subscribe();
   }
-  sendComment(id: number, post: Post, commForm: AbstractControl | null): void {
+
+  sendComment(id: number, post: Post, commForm: AbstractControl | null ): void {
     const formData: FormData = new FormData();
     // @ts-ignore
     formData.append('userName', new Blob([localStorage.getItem('currentUser')], {type: 'text/plain'}), 'userName');

@@ -5,15 +5,15 @@
 <div id="container">
   <div id="profilInfo">
     <div id="profilePicture">
-      <img *ngIf="user.name.length > 1" alt="xxx" class="xxx" [src]="'http://localhost:8080/pp/' + user.name">
+      <img *ngIf="user.username" alt="xxx" class="xxx" [src]="'http://localhost:8080/pp/' + user.username">
     </div>
     <div id="stats">
-      <label>{{this.user.name}}</label>
-      <button *ngIf="this.loggedUser.name !== this.user.name && this.followed === false" class="followBtn" (click)="follow()">Follow</button>
-      <button *ngIf="this.loggedUser.name !== this.user.name && this.followed === true" id="unfollowBtn" (click)="follow()">Unfollow</button>
+      <label>{{this.user.username}}</label>
+      <button *ngIf="this.loggedUser.username !== this.user.username && this.followed === false" class="followBtn" (click)="follow()">Follow</button>
+      <button *ngIf="this.loggedUser.username !== this.user.username && this.followed === true" id="unfollowBtn" (click)="follow()">Unfollow</button>
 
       <div id="statistics" >
-        <label>Posty: {{this.user.posts.length}}</label>
+        <label>Posty: {{this.user.posts?.length}}</label>
         <label>Obserwujacy: {{this.user.numOfFollowers}}</label>
         <label>Obserwowani: {{this.user.numOfFollowing}}</label>
       </div>

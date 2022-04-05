@@ -53,6 +53,7 @@ export class ProfileComponent implements OnInit {
   }
   setLoggedUser(): void{
     this.authService.getUserAsync().subscribe(user => {
+      console.log(user);
       this.loggedUser = user;
       this.user = user;
       this.followed = this.isFollowed(this.user);
@@ -99,7 +100,6 @@ export class ProfileComponent implements OnInit {
           user.posts.forEach((post: Post, index: number) => postArray[index] = post);
           this.user = user;
           this.followed = this.isFollowed(this.user);
-          console.log(this.followed);
       },
         error => {
         if (error.status === 404){
@@ -111,18 +111,18 @@ export class ProfileComponent implements OnInit {
   follow(): void {
     if (!this.isFollowed(this.user)){
       this.user.numOfFollowers += 1;
-      this.loggedUser.followings[this.loggedUser.followings.length] = this.user.name;
+      this.loggedUser.followings[this.loggedUser.followings.length] = this.user.username;
       this.followed = true;
     }else{
       this.user.numOfFollowers -= 1;
-      this.loggedUser.followings = this.loggedUser.followings.filter(name => name !== this.user.name);
+      this.loggedUser.followings = this.loggedUser.followings.filter(name => name !== this.user.username);
       this.followed = false;
     }
     this.profileService.putFollow(this.user);
   }
   isFollowed(user: User): boolean {
     console.log(this.loggedUser);
-    if (this.loggedUser.followings.filter(userName => userName === user.name ).length > 0){
+    if (this.loggedUser.followings.filter(userName => userName === user.username ).length > 0){
       return true;
     }
     return false;
@@ -134,7 +134,7 @@ export class ProfileComponent implements OnInit {
   }
   closePostDetailsWindow(): void{
     this.postDetails = false;
-    this.location.replaceState('/' + this.user.name);
+    this.location.replaceState('/' + this.user.username);
   }
 
 }

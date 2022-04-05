@@ -55,9 +55,7 @@ export class LoginRegistrationComponent implements OnInit {
     const loginInput = document.getElementById('userName');
     const passwd = document.getElementById('passwInput1');
     if (loginInput instanceof HTMLInputElement && passwd instanceof HTMLInputElement){
-      this.authService.processLogin(loginInput.value, passwd.value)
-        .subscribe(data => localStorage.setItem('token', data.headers.get('Authorization')?.substr('Bearer '.length) as string));
-      // this.router.navigate(['/']);
+      this.authService.processLogin(loginInput.value, passwd.value);
     }
   }
   private register(): void{

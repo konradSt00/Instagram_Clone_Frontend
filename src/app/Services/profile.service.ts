@@ -20,19 +20,26 @@ import {AuthService} from './auth.service';
 export class ProfileService {
   constructor(private httpClient: HttpClient) { }
 
-  getUser(name: string): Observable<User>{
+  getUser(name: string | null): Observable<User>{
+    const token = localStorage.getItem('token') || 'elo';
+    const url = API_ENDPOINT + '/' + name;
+    const header = {
+      headers: new HttpHeaders()
+        .set('Authorization',  `Bearer ${token}`)
+    };
+
     // @ts-ignore
-    return this.httpClient.get(API_ENDPOINT + '/' + name);
+    return this.httpClient.get(url, header);
   }
   putFollow(user: User): void {
     const formData: FormData = new FormData();
     // @ts-ignore
     formData.append('followingUser', new Blob([localStorage.getItem('currentUser')], {type: 'text/plain'}), 'userName');
     // TODO: response
-    this.sendHttpRequest('PUT', API_ENDPOINT + '/' + user.name, formData).subscribe();
+    this.sendHttpRequest('PUT', API_ENDPOINT + '/' + user.username, formData).subscribe();
   }
-
-  register(userName: string, password: string): Promise<HttpSentEvent | HttpHeaderResponse | HttpResponse<any> | HttpProgressEvent | HttpUserEvent<any>> {
+  register(userName: string, password: string):
+    Promise<HttpSentEvent | HttpHeaderResponse | HttpResponse<any> | HttpProgressEvent | HttpUserEvent<any>> {
     const formData: FormData = new FormData();
     // @ts-ignore
     formData.append('newUserName', new Blob([userName], {type: 'text/plain'}), 'userName');

@@ -3,7 +3,7 @@ import {HttpClient, HttpClientModule, HttpEvent, HttpHeaders, HttpParams, HttpRe
 import {Post} from '../../Models/Post';
 import {Comm} from '../../Models/Comment';
 import {User} from '../../Models/User';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormGroup} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {PostService} from '../../Services/post.service';
 import {AuthService} from '../../Services/auth.service';
@@ -15,23 +15,30 @@ import {Router} from '@angular/router';
   styleUrls: ['./main-wall.component.css']
 })
 export class MainWallComponent implements OnInit {
-  postsList: Array<Post>;
+  postsList = new Array<Post>();
   newPostWindowOpened: boolean;
+  // @ts-ignore
   commForm: FormGroup;
   photoApiUrl: string;
   constructor(private postService: PostService,
               private authService: AuthService,
               private router: Router) {
-    this.postsList = postService.getPostList();
-    this.commForm = postService.getCommForm();
     this.newPostWindowOpened = false;
     this.photoApiUrl = PHOTO_API_ENDPOINT;
-  }
+    this.commForm =  this.postService.getCommForm();
 
+  }
   ngOnInit(): void {
+    if (this.authService.isLoggedIn){
+      this.postsList = this.postService.getPostList();
+    }
   }
   onSubmit(id: number): void{
-    this.postService.sendComment(id, this.postsList.filter(post => post.id === id)[0], this.commForm.get(id.toString()));
+    const cForm = this.commForm;
+    if (cForm !== null && cForm !== undefined) {
+      this.postService.sendComment(id, this.postsList.filter(post => post.id === id)[0],
+        (cForm as AbstractControl).get(id.toString()));
+    }
   }
 
   deleteResource(postID: number, commentID: number): void {

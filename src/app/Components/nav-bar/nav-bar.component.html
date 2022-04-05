@@ -9,9 +9,9 @@
       <input [(ngModel)]="quantity" (ngModelChange)="searchUsers($event)" (focus)="showResults()" type="text" placeholder="Search">
 
       <div *ngIf="resultsShown" id="search-result" >
-        <div id="user" *ngFor="let user of usersList" (click)="moveToUserProfile(user.name)">
+        <div id="user" *ngFor="let user of usersList" (click)="moveToUserProfile(user.username)">
           <div id="profilePhoto"></div>
-          <label>{{user.name}}</label>
+          <label>{{user.username}}</label>
         </div>
       </div>
     </label>

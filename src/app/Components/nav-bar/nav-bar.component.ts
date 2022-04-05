@@ -47,7 +47,7 @@ export class NavBarComponent implements OnInit {
   }
 
   searchUsers(event: string): void {
-    this.usersList = new Array();
+    this.usersList = new Array<User>();
     if (event !== '' && /^[a-zA-Z]+$/.test(event)){
       // tslint:disable-next-line:no-shadowed-variable
       this.profileService.searchUsers(event).toPromise().then( resolve =>

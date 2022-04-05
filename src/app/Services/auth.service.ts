@@ -5,6 +5,7 @@ import {ProfileService} from './profile.service';
 import {API_ENDPOINT} from '../constants';
 import {HttpClient, HttpHeaderResponse, HttpProgressEvent, HttpResponse, HttpSentEvent, HttpUserEvent} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -13,11 +14,18 @@ export class AuthService {
   userNameS = new Subject<string>();
   user: User;
   obsTest = new Subject<User>();
+  // tslint:disable-next-line:variable-name
+  private _isLoggedIn = false;
   constructor(private httpClient: HttpClient,
-              private profileService: ProfileService) {
-    this.user =
-      new User('0', '0', 0, 0, new Array<Post>(), new Array<string>(), new Array<string>());
-    if (localStorage.getItem('currentUser') !== null && localStorage.getItem('currentUser') !== '') {
+              private profileService: ProfileService,
+              private router: Router
+              ) {
+    if (localStorage.getItem('token') != null){
+      this._isLoggedIn = true;
+    }
+    // @ts-ignore
+    this.user = new User();
+    if (this._isLoggedIn) {
       this.setUser();
     }
     this.userNameS.subscribe(userName => {
@@ -25,10 +33,15 @@ export class AuthService {
       this.setUser();
     });
   }
+
+  get isLoggedIn(): boolean {
+    return this._isLoggedIn;
+  }
   setUser(): void {
-    this.httpClient.get(API_ENDPOINT + '/' + localStorage.getItem('currentUser'))
+    this.profileService.getUser(localStorage.getItem('currentUser'))
       .subscribe(data => {
         this.user = JSON.parse(JSON.stringify(data));
+        console.log(this.user);
         this.obsTest.next(this.user);
       });
   }
@@ -41,9 +54,15 @@ export class AuthService {
   getUserAsync(): Subject<User>{
     return this.obsTest;
   }
-  processLogin(userName: string, passwd: string): Observable<HttpResponse<any>>{
-    // this.userNameS.next(userName); // TODO !!!
-    return this.profileService.processLogin(userName, passwd);
+  processLogin(userName: string, passwd: string): void{
+    this.userNameS.next(userName);
+    this.profileService.processLogin(userName, passwd)
+      .subscribe(data => {
+        localStorage.setItem('token', data.headers.get('Authorization')?.substr('Bearer '.length) as string);
+        this._isLoggedIn = true;
+        this.router.navigate(['/']).then();
+
+      });
   }
   register(userName: string, password: string): Promise<HttpSentEvent |
                                                 HttpHeaderResponse |
@@ -52,5 +71,8 @@ export class AuthService {
                                                 HttpUserEvent<any>> {
     return this.profileService.register(userName, password);
   }
+
+
+
 }
 
