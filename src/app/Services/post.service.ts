@@ -8,6 +8,7 @@ import {API_ENDPOINT} from '../constants';
 import {Observable} from 'rxjs';
 import {AuthService} from './auth.service';
 import {HttpService} from './http.service';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,8 @@ export class PostService {
 
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
-              private httpService: HttpService) {
+              private httpService: HttpService,
+              private router: Router) {
   }
   private downloadMainWallPosts(): void{
     this.httpService.sendHttpRequest('GET',
@@ -30,7 +32,14 @@ export class PostService {
             this.postsList[index] = this.createPostFromJson(postInfo.post, postInfo.liked);
             this.addCommentFormGroup(this.postsList[index].id);
           });
-        });
+        },
+          error => {
+            if (error.status === 404){
+              this.router.navigate(['/404']);
+            }else if (error.status === 403){
+              this.router.navigate(['/login']);
+            }
+          });
   }
 
   // tslint:disable-next-line:ban-types

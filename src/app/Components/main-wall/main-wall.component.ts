@@ -47,7 +47,6 @@ export class MainWallComponent implements OnInit {
 
   like(id: number): void {
     this.postService.likePost(id);
-    this.postsList = this.postsList;
   }
 
   goToProfile(userName: string): void {

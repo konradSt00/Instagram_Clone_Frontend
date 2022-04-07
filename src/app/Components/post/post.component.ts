@@ -1,7 +1,6 @@
 import {Component, HostListener, OnChanges, OnInit} from '@angular/core';
 import {Post} from '../../Models/Post';
 import {Router} from '@angular/router';
-import {HttpClient} from '@angular/common/http';
 import {API_ENDPOINT, PHOTO_API_ENDPOINT} from '../../constants';
 import {toNumbers} from '@angular/compiler-cli/src/diagnostics/typescript_version';
 import {Comm} from '../../Models/Comment';
@@ -16,7 +15,6 @@ import {AuthService} from '../../Services/auth.service';
 })
 export class PostComponent implements OnInit {
   constructor(private router: Router,
-              private httpClient: HttpClient,
               private postService: PostService,
               private formBuilder: FormBuilder,
               ) {
@@ -63,13 +61,13 @@ export class PostComponent implements OnInit {
   }
   like(id: number): void {
     this.postService.likePost(id);
-    if(this.post.liked === true){
+    if (this.post.liked === true){
       this.post.likes --;
     }else{
       this.post.likes++;
     }
     this.post.liked = !this.post.liked;
-
+    console.log(this.post);
   }
   inputFocus(): void {
     // @ts-ignore

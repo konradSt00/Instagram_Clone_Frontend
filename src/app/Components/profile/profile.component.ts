@@ -104,6 +104,8 @@ export class ProfileComponent implements OnInit {
         error => {
         if (error.status === 404){
           this.router.navigate(['/404']);
+        }else if (error.status === 404){
+          this.router.navigate(['/login']);
         }
       }
       );

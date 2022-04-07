@@ -3,7 +3,6 @@ import {User} from '../Models/User';
 import {Post} from '../Models/Post';
 import {ProfileService} from './profile.service';
 import {API_ENDPOINT} from '../constants';
-import {HttpClient, HttpHeaderResponse, HttpProgressEvent, HttpResponse, HttpSentEvent, HttpUserEvent} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
 import {Router} from '@angular/router';
 
@@ -16,8 +15,7 @@ export class AuthService {
   obsTest = new Subject<User>();
   // tslint:disable-next-line:variable-name
   private _isLoggedIn = false;
-  constructor(private httpClient: HttpClient,
-              private profileService: ProfileService,
+  constructor(private profileService: ProfileService,
               private router: Router
               ) {
     if (localStorage.getItem('token') != null){
@@ -31,7 +29,8 @@ export class AuthService {
     this.userNameS.subscribe(userName => {
       localStorage.setItem('currentUser', userName);
       this.setUser();
-    });
+    }
+    );
   }
 
   get isLoggedIn(): boolean {
@@ -40,10 +39,17 @@ export class AuthService {
   setUser(): void {
     this.profileService.getUser(localStorage.getItem('currentUser'))
       .subscribe(data => {
-        console.log(data);
+        console.log('ti');
         this.user = JSON.parse(JSON.stringify(data));
         this.obsTest.next(this.user);
-      });
+      },
+        error => {
+          if (error.status === 404){
+            this.router.navigate(['/404']);
+          }else if (error.status === 403){
+            this.router.navigate(['/login']);
+          }
+        });
   }
 
   getUser(): User{
