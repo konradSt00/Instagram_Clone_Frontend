@@ -60,14 +60,14 @@ export class PostComponent implements OnInit {
     this.postService.deleteComment(this.post, commentID);
   }
   like(id: number): void {
-    this.postService.likePost(id);
     if (this.post.liked === true){
       this.post.likes --;
     }else{
       this.post.likes++;
     }
     this.post.liked = !this.post.liked;
-    console.log(this.post);
+    this.postService.likePost(id);
+
   }
   inputFocus(): void {
     // @ts-ignore

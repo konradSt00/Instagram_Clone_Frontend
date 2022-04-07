@@ -58,11 +58,11 @@ export class PostService {
         .subscribe(data => console.log(data));
     // tslint:disable-next-line:no-shadowed-variable
     const post = this.postsList.filter(post => post.id === id)[0];
-    if (post.liked === true) {
+    if (post !== undefined && post.liked === true) {
       post.liked = false;
       post.likes --;
     }
-    else{
+    else if (post !== undefined){
       post.liked = true;
       post.likes ++;
     }
