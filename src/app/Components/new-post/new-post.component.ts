@@ -15,7 +15,7 @@ export class NewPostComponent implements OnInit {
   fileLoaded: boolean;
   nextPageLoaded = false;
   reader: FileReader | undefined;
-  constructor(private httpClient: HttpClient, private authService: AuthService, private postService: PostService) {
+  constructor(private postService: PostService) {
     this.fileLoaded = false;
   }
 
@@ -58,7 +58,6 @@ export class NewPostComponent implements OnInit {
       document.getElementById('newPostWindow').style.width = '750px';
     }
   }
-  // TODO:  fitowanie postu
   uploadPhoto(): void{
     // tslint:disable-next-line:label-position
     const textArea: HTMLElement | null = document.getElementById('descriptionInput');
@@ -69,14 +68,16 @@ export class NewPostComponent implements OnInit {
     formData.append('photo', this.fileToUpload, 'newPhoto');
     // @ts-ignore
     formData.append('description', new Blob([textArea?.value], {type: 'text/plain'}), 'postDescription');
-    const params = new HttpParams();
-    const options = {
-      params,
-      reportProgress: true,
-    };
-    const req = new HttpRequest('POST', 'http://localhost:8080/newPost', formData, options);
-    const a = this.httpClient.request(req);
-    a.subscribe(o => console.log(o.type));
+    // const params = new HttpParams();
+    // const options = {
+    //   params,
+    //   reportProgress: true,
+    // };
+    //
+    // const req = new HttpRequest('POST', 'http://localhost:8080/newPost', formData, options);
+    // const a = this.httpClient.request(req);
+    // a.subscribe(o => console.log(o.type));
+    this.postService.uploadNewPost(formData);
     window.location.reload();
   }
 

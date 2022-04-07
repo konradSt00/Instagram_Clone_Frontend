@@ -5,7 +5,7 @@ import {ProfileService} from './profile.service';
 import {API_ENDPOINT} from '../constants';
 import {HttpClient, HttpHeaderResponse, HttpProgressEvent, HttpResponse, HttpSentEvent, HttpUserEvent} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -40,8 +40,8 @@ export class AuthService {
   setUser(): void {
     this.profileService.getUser(localStorage.getItem('currentUser'))
       .subscribe(data => {
+        console.log(data);
         this.user = JSON.parse(JSON.stringify(data));
-        console.log(this.user);
         this.obsTest.next(this.user);
       });
   }
@@ -64,11 +64,8 @@ export class AuthService {
 
       });
   }
-  register(userName: string, password: string): Promise<HttpSentEvent |
-                                                HttpHeaderResponse |
-                                                HttpResponse<any> |
-                                                HttpProgressEvent |
-                                                HttpUserEvent<any>> {
+  // tslint:disable-next-line:ban-types
+  register(userName: string, password: string): Observable<Object> {
     return this.profileService.register(userName, password);
   }
 

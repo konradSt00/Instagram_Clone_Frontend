@@ -66,7 +66,7 @@ export class LoginRegistrationComponent implements OnInit {
         passwd instanceof HTMLInputElement &&
         rPasswd instanceof HTMLInputElement
         ){
-      this.authService.register(loginInput.value, passwd.value).then(response => {
+      this.authService.register(loginInput.value, passwd.value).subscribe(response => {
         alert('Registered!');
         this.login();
         }, error => {

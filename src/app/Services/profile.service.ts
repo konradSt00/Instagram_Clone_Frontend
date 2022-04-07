@@ -13,68 +13,48 @@ import {
 import {API_ENDPOINT} from '../constants';
 import {User} from '../Models/User';
 import {AuthService} from './auth.service';
+import {HttpService} from "./http.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProfileService {
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpService: HttpService) { }
 
-  getUser(name: string | null): Observable<User>{
-    const token = localStorage.getItem('token') || 'elo';
+  getUser(name: string | null): Observable<HttpEvent<User>>{
+    // TODO: error handling - name = null?
     const url = API_ENDPOINT + '/' + name;
-    const header = {
-      headers: new HttpHeaders()
-        .set('Authorization',  `Bearer ${token}`)
-    };
-
     // @ts-ignore
-    return this.httpClient.get(url, header);
+    return this.httpService.sendHttpRequest('GET', url, this.httpService.getAuthHttpHeaders());
   }
   putFollow(user: User): void {
     const formData: FormData = new FormData();
     // @ts-ignore
     formData.append('followingUser', new Blob([localStorage.getItem('currentUser')], {type: 'text/plain'}), 'userName');
     // TODO: response
-    this.sendHttpRequest('PUT', API_ENDPOINT + '/' + user.username, formData).subscribe();
+    this.httpService.sendHttpRequest('PUT', API_ENDPOINT + '/' + user.username,
+      this.httpService.getAuthHttpHeaders(),
+      formData)
+      .subscribe();
   }
   register(userName: string, password: string):
-    Promise<HttpSentEvent | HttpHeaderResponse | HttpResponse<any> | HttpProgressEvent | HttpUserEvent<any>> {
+    Observable<Object> {
     const formData: FormData = new FormData();
     // @ts-ignore
     formData.append('newUserName', new Blob([userName], {type: 'text/plain'}), 'userName');
-    return this.sendHttpRequest('POST', API_ENDPOINT + '/addnewuser' , formData)
-      .toPromise();
+    return this.httpService.sendHttpRequest('POST',
+      API_ENDPOINT + '/addnewuser',
+      this.httpService.getAuthHttpHeaders(),
+      formData);
   }
   processLogin(userName: string, passwd: string): Observable<HttpResponse<any>>{
-    const body = new HttpParams()
-      .set(`username`, userName)
-      .set(`password`, passwd);
-    const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
-
-    return this.httpClient.post(API_ENDPOINT + `/login`, body.toString(), { headers, observe: 'response' });
+    return this.httpService.postLoginData(userName, passwd);
   }
-
-  private sendHttpRequest(type: string, url: string,
-                          formData: FormData | undefined): Observable<HttpEvent<any>>{
-    const params = new HttpParams();
-    const options = {
-      params,
-      reportProgress: true,
-    };
-    let req;
-    if (formData !== undefined) {
-      req = new HttpRequest(type, url, formData, options);
-    }else{
-      // @ts-ignore
-      req = new HttpRequest(type, url);
-    }
-    return this.httpClient.request(req);
-  }
-
-
-  searchUsers(event: string): Observable<Array<User>>{
+  searchUsers(event: string): Observable<HttpEvent<Array<User>>>{
+    const url = API_ENDPOINT + '/s/' + event;
     // @ts-ignore
-    return this.httpClient.get(API_ENDPOINT + '/s/' + event);
+    return this.httpService.sendHttpRequest('GET',
+      url,
+      this.httpService.getAuthHttpHeaders());
   }
 }

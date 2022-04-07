@@ -121,7 +121,6 @@ export class ProfileComponent implements OnInit {
     this.profileService.putFollow(this.user);
   }
   isFollowed(user: User): boolean {
-    console.log(this.loggedUser);
     if (this.loggedUser.followings.filter(userName => userName === user.username ).length > 0){
       return true;
     }
