@@ -40,6 +40,8 @@ export class ProfileService {
     const formData: FormData = new FormData();
     // @ts-ignore
     formData.append('newUserName', new Blob([userName], {type: 'text/plain'}), 'userName');
+    formData.append('password', new Blob([password], {type: 'text/plain'}), 'userName');
+
     return this.httpService.sendHttpRequest('POST',
       API_ENDPOINT + '/user',
       this.httpService.getAuthHttpHeaders(),
