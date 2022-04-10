@@ -28,22 +28,20 @@ export class ProfileService {
     return this.httpService.sendHttpRequest('GET', url, this.httpService.getAuthHttpHeaders());
   }
   putFollow(user: User): void {
-    const formData: FormData = new FormData();
+    const followingUsername = localStorage.getItem('currentUser');
     // @ts-ignore
-    formData.append('followingUser', new Blob([localStorage.getItem('currentUser')], {type: 'text/plain'}), 'userName');
     // TODO: response
-    this.httpService.sendHttpRequest('PUT', API_ENDPOINT + '/' + user.username,
-      this.httpService.getAuthHttpHeaders(),
-      formData)
+    this.httpService.sendHttpRequest('PUT', API_ENDPOINT + '/' + user.username + '/' + followingUsername,
+      this.httpService.getAuthHttpHeaders())
       .subscribe();
   }
-  register(userName: string, password: string):
+  register(userName: string, password: string): // TODO: register doesnt work
     Observable<Object> {
     const formData: FormData = new FormData();
     // @ts-ignore
     formData.append('newUserName', new Blob([userName], {type: 'text/plain'}), 'userName');
     return this.httpService.sendHttpRequest('POST',
-      API_ENDPOINT + '/addnewuser',
+      API_ENDPOINT + '/user',
       this.httpService.getAuthHttpHeaders(),
       formData);
   }
@@ -51,7 +49,7 @@ export class ProfileService {
     return this.httpService.postLoginData(userName, passwd);
   }
   searchUsers(event: string): Observable<HttpEvent<Array<User>>>{
-    const url = API_ENDPOINT + '/s/' + event;
+    const url = API_ENDPOINT + '/search/' + event;
     // @ts-ignore
     return this.httpService.sendHttpRequest('GET',
       url,

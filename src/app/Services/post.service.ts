@@ -45,7 +45,7 @@ export class PostService {
   // tslint:disable-next-line:ban-types
   getSinglePost(postId: string): Observable<Object> {
     return this.httpService.sendHttpRequest('GET',
-      API_ENDPOINT + '/pi/' + localStorage.getItem('currentUser') + '/' + postId,
+      API_ENDPOINT + '/post/' + localStorage.getItem('currentUser') + '/' + postId,
       this.httpService.getAuthHttpHeaders());
   }
 
@@ -53,7 +53,7 @@ export class PostService {
     // @ts-ignore
     // TODO: response
     this.httpService.sendHttpRequest('PUT',
-      API_ENDPOINT + '/p/' + id.toString() + '/' + localStorage.getItem('currentUser'),
+      API_ENDPOINT + '/post/' + id.toString() + '/' + localStorage.getItem('currentUser'),
       this.httpService.getAuthHttpHeaders())
         .subscribe(data => console.log(data));
     // tslint:disable-next-line:no-shadowed-variable
@@ -71,12 +71,12 @@ export class PostService {
   deleteComment(post: Post, commID: number): void {
     post.commentsList = post.commentsList.filter(comment => comment.id !== commID);
     this.httpService.sendHttpRequest('DELETE',
-      API_ENDPOINT + '/p/' + post.id + '/' + commID,
+      API_ENDPOINT + '/post/' + post.id + '/' + commID,
       this.httpService.getAuthHttpHeaders())
       .subscribe();
   }
   uploadNewPost(formData: FormData): void{
-    this.httpService.sendHttpRequest('POST', 'http://localhost:8080/newPost', this.httpService.getAuthHttpHeaders(), formData)
+    this.httpService.sendHttpRequest('POST', 'http://localhost:8080/post', this.httpService.getAuthHttpHeaders(), formData)
       .subscribe();
   }
   sendComment(id: number, post: Post, commForm: AbstractControl | null ): void {
@@ -93,7 +93,7 @@ export class PostService {
         const newComment =
           new Comm(-1, inputValue, userName, new Date());
         post.commentsList[post.commentsList.length] = newComment;
-        this.httpService.sendHttpRequest('POST', API_ENDPOINT + '/p/' + id.toString(), this.httpService.getAuthHttpHeaders(), formData)
+        this.httpService.sendHttpRequest('POST', API_ENDPOINT + '/post/' + id.toString(), this.httpService.getAuthHttpHeaders(), formData)
           .subscribe(o => {
             const data = JSON.parse(JSON.stringify(o));
             if (data.body !== undefined) {

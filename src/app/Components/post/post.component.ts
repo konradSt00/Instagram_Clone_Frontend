@@ -22,7 +22,7 @@ export class PostComponent implements OnInit {
     this.post = new Post(-1, -1, '', new Array<Comm>(), '', false);
     this.getPost(this.router.url.split('/')[this.router.url.split('/').length - 1]);
     this.router.events.subscribe(() =>  {
-      if (this.router.url.startsWith('/pd/')){
+      if (this.router.url.startsWith('/post/')){
         this.getPost(this.router.url.split('/')[this.router.url.split('/').length - 1]);
       }
     });

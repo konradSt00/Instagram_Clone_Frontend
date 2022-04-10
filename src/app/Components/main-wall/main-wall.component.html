@@ -8,7 +8,7 @@
       <div class="post" id="photo3" *ngFor="let post of postsList">
         <div class="title">
           <div class="profImage">
-            <img alt="xxx" class="xxx" [src]="'http://localhost:8080/pp/' + post.userName">
+            <img alt="xxx" class="xxx" [src]="'http://localhost:8080/profile_photo/' + post.userName">
           </div>
           <div (click)="goToProfile(post.userName)" class="name" >{{post.userName}}</div>
         </div>
