@@ -2,6 +2,7 @@ body{
   background-color: #eaeaea;
   padding-top: 110px;
   padding-bottom: 15px;
+  height: 84vh;
 }
 #content{
   display: flex; justify-content:center;

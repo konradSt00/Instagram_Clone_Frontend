@@ -25,50 +25,44 @@ export class LoginRegistrationComponent implements OnInit {
       this.registration = true;
     }
   }
-  showPsw(): void {
-    const x = document.getElementById('passwInput1');
-    const btn = document.getElementById('showPsw');
+
+  showPsw(password1: HTMLInputElement, showBtn: HTMLButtonElement): void {
     let text = '';
-    if (x instanceof HTMLInputElement && x.type === 'password') {
-      x.type = 'text';
+    if (password1 instanceof HTMLInputElement && password1.type === 'password') {
+      password1.type = 'text';
       text = 'Hide';
-    } else if (x instanceof HTMLInputElement) {
-      x.type = 'password';
+    } else if (password1 instanceof HTMLInputElement) {
+      password1.type = 'password';
       text = 'Show';
     }
     // @ts-ignore
-    btn.setAttribute('content', 'test content');
+    showBtn.setAttribute('content', 'test content');
     // @ts-ignore
-    btn.setAttribute('class', 'btn');
+    showBtn.setAttribute('class', 'btn');
     // @ts-ignore
-    btn.textContent = text;
+    showBtn.textContent = text;
   }
 
-  submit(): void {
+  submit(username: HTMLInputElement, password1: HTMLInputElement, password2: HTMLInputElement): void {
     if (this.registration === true){
-      this.register();
+      this.register(username, password1, password2);
     }else{
-      this.login();
+      this.login(username, password1);
     }
   }
-  private login(): void{
-    const loginInput = document.getElementById('userName');
-    const passwd = document.getElementById('passwInput1');
-    if (loginInput instanceof HTMLInputElement && passwd instanceof HTMLInputElement){
-      this.authService.processLogin(loginInput.value, passwd.value);
+  private login(username: HTMLInputElement, password: HTMLInputElement): void{
+    if (username instanceof HTMLInputElement && password instanceof HTMLInputElement){
+      this.authService.processLogin(username.value, password.value);
     }
   }
-  private register(): void{
-    const loginInput = document.getElementById('userName');
-    const passwd = document.getElementById('passwInput1');
-    const rPasswd = document.getElementById('passwInput2');
-    if (loginInput instanceof HTMLInputElement &&
-        passwd instanceof HTMLInputElement &&
-        rPasswd instanceof HTMLInputElement
+  private register(username: HTMLInputElement, password: HTMLInputElement, passwordRep: HTMLInputElement): void{
+    if (username instanceof HTMLInputElement &&
+      password instanceof HTMLInputElement &&
+      passwordRep instanceof HTMLInputElement
         ){
-      this.authService.register(loginInput.value, passwd.value).subscribe(response => {
+      this.authService.register(username.value, password.value).subscribe(response => {
         alert('Registered!');
-        this.login();
+        this.login(username, password);
         }, error => {
           if (error.status === 409){
             this.userNameInformationShown = true;

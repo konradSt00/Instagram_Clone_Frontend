@@ -24,7 +24,7 @@ export class NewPostComponent implements OnInit {
   closeWindow(): void{
     console.log('Closed');
   }
-  uploadFile(event: Event): void{
+  uploadFile(event: Event, image: HTMLImageElement): void{
     // @ts-ignore
     this.fileToUpload = event.target.files[0];
     // tslint:disable-next-line:prefer-const
@@ -33,7 +33,6 @@ export class NewPostComponent implements OnInit {
     reader.onload = function(e){
       // @ts-ignore
       // tslint:disable-next-line:no-unused-expression label-position
-      const image: HTMLImageElement = document.getElementById('loadedImage');
       if (e.target != null && image.src != null && typeof e.target.result === 'string') {
         image.src = e.target.result;
       }
@@ -46,21 +45,16 @@ export class NewPostComponent implements OnInit {
   nextPage(): void {
     if (this.fileLoaded === true) {
       this.nextPageLoaded = true;
-      // @ts-ignore
-      document.getElementById('newPostWindow').style.width = '1100px';
     }
   }
 
   prevPage(): void {
     if (this.nextPageLoaded === true) {
       this.nextPageLoaded = false;
-      // @ts-ignore
-      document.getElementById('newPostWindow').style.width = '750px';
     }
   }
-  uploadPhoto(): void{
+  uploadPhoto(textArea: HTMLTextAreaElement): void{
     // tslint:disable-next-line:label-position
-    const textArea: HTMLElement | null = document.getElementById('descriptionInput');
     const formData: FormData = new FormData();
     // @ts-ignore
     formData.append('userName', new Blob([localStorage.getItem('currentUser')], {type: 'text/plain'}), 'userName');
@@ -68,15 +62,6 @@ export class NewPostComponent implements OnInit {
     formData.append('photo', this.fileToUpload, 'newPhoto');
     // @ts-ignore
     formData.append('description', new Blob([textArea?.value], {type: 'text/plain'}), 'postDescription');
-    // const params = new HttpParams();
-    // const options = {
-    //   params,
-    //   reportProgress: true,
-    // };
-    //
-    // const req = new HttpRequest('POST', 'http://localhost:8080/newPost', formData, options);
-    // const a = this.httpClient.request(req);
-    // a.subscribe(o => console.log(o.type));
     this.postService.uploadNewPost(formData);
     window.location.reload();
   }

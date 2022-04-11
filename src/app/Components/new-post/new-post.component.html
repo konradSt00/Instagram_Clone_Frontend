@@ -1,5 +1,5 @@
 
-  <div id="newPostWindow">
+  <div [ngStyle]="{'width': (this.nextPageLoaded) ? '1100px' : '750px'}" id="newPostWindow">
 
     <div class="container">
 
@@ -7,20 +7,20 @@
       </button>
       <div class="windowTitle">Add new post</div>
       <button class="nextBtn" (click)="nextPage()" *ngIf="nextPageLoaded == false">Next</button>
-      <button class="nextBtn" (click)="uploadPhoto()" *ngIf="nextPageLoaded == true">Upload</button>
+      <button class="nextBtn" (click)="uploadPhoto(descriptionInput)" *ngIf="nextPageLoaded == true">Upload</button>
     </div>
 
     <label for="fileUpload" class="fileUpload" *ngIf="fileLoaded == false">
        +
     </label>
     <div  [ngClass]="{'lastPageContainerP1': nextPageLoaded == false, 'lastPageContainerP2': nextPageLoaded == true}"  >
-      <img id="loadedImage" *ngIf="fileLoaded == true"/>
-      <div id="description">
-        <textarea id="descriptionInput" *ngIf="nextPageLoaded == true" placeholder="Add photo description..."></textarea>
+      <img #loadedImage id="loadedImage" [ngStyle]="{'display': fileLoaded ? 'block':'none'}" />
+      <div [ngStyle]="{'display': !nextPageLoaded ? 'none' : 'block'}" id="description">
+        <textarea #descriptionInput id="descriptionInput"  placeholder="Add photo description..."></textarea>
       </div>
     </div>
 
-    <input id="fileUpload" type="file" (change)="uploadFile($event)"/>
+    <input id="fileUpload" type="file" (change)="uploadFile($event, loadedImage)"/>
 
 
   </div>

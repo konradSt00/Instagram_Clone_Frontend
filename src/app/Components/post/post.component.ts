@@ -69,9 +69,10 @@ export class PostComponent implements OnInit {
     this.postService.likePost(id);
 
   }
-  inputFocus(): void {
+
+  inputFocus(commentInput: HTMLInputElement): void {
     // @ts-ignore
-    document.getElementById('commentInput').focus();
+    commentInput.focus();
   }
 
 

@@ -1,15 +1,12 @@
 .photoWall{
-  position: absolute;
+  /*position: absolute;*/
   background-color: #eae9e9;
-  width: 45%;
-  left: 20%;
+  margin: 50px auto auto;
+  width: 55%;
   top: 132px;
   z-index: 0;
-  height: 5000px;
-
 }
 #icons{
-
   display: inline;
   position: fixed;
   left: 65%;
@@ -18,21 +15,20 @@
 
 .item3 { grid-area: main;
   padding-top: 80px;
-  height: 5000px;
   background-color: #eae9e9;
 
 }
-.item4 { grid-area: right;
-  padding-top: 100px;
-  position: fixed;
-  left: 65%;
-  top: 102px;
-  width: 300px;
-  height: 400px;
-  background-color: #efeded;
-  z-index: 1;
+/*.item4 { grid-area: right;*/
+/*  padding-top: 100px;*/
+/*  position: fixed;*/
+/*  left: 65%;*/
+/*  top: 102px;*/
+/*  width: 300px;*/
+/*  height: 400px;*/
+/*  background-color: #efeded;*/
+/*  z-index: 1;*/
 
-}
+/*}*/
 .logo{
   position: fixed;
   font-size: 36px;

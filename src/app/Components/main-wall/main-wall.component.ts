@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 import {HttpClient, HttpClientModule, HttpEvent, HttpHeaders, HttpParams, HttpRequest, HttpResponse} from '@angular/common/http';
 import {Post} from '../../Models/Post';
 import {Comm} from '../../Models/Comment';
@@ -33,6 +33,8 @@ export class MainWallComponent implements OnInit {
       this.postsList = this.postService.getPostList();
     }
   }
+
+
   onSubmit(id: number): void{
     const cForm = this.commForm;
     if (cForm !== null && cForm !== undefined) {

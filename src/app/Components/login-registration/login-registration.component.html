@@ -3,7 +3,7 @@
   <div class="logo">cINSTAGRAM</div>
   <div id="login" class="login">
     <label>
-      <input (focus)="hideInformations()" id="userName" placeholder=" " value="" type="text">
+      <input #usernameElement (focus)="hideInformations()" id="userName" placeholder=" " value="" type="text">
       <span>Your user name</span>
     </label>
     <div *ngIf="this.userNameInformationShown" id="information">Username already taken!</div>
@@ -11,18 +11,18 @@
 
   <div class="password">
     <label>
-      <input id="passwInput1" placeholder=" " value="" type="password">
+      <input #password1Element id="passwInput1" placeholder=" " value="" type="password">
       <span>Password</span>
     </label>
-    <button *ngIf="!registration" id="showPsw" (click)="showPsw()">Show</button>
+    <button #showBtn *ngIf="!registration" id="showPsw" (click)="showPsw(password1Element, showBtn)">Show</button>
   </div>
-  <div *ngIf="registration" class="repeatPasswd">
+  <div [ngStyle]="{'display': !registration ? 'none' : 'block'}"  class="repeatPasswd">
     <label>
-      <input id="passwInput2" placeholder=" " value="" type="password">
+      <input  #password2Element id="passwInput2" placeholder=" " value="" type="password">
       <span>Repeat password</span>
     </label>
   </div>
-  <div class="loginBtn" (click)="submit()">
+  <div class="loginBtn" (click)="submit(usernameElement, password1Element, password2Element)">
     <button *ngIf="!registration">Login</button>
     <button *ngIf="registration">Register</button>
 
