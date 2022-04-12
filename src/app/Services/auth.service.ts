@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import {User} from '../Models/User';
-import {Post} from '../Models/Post';
 import {ProfileService} from './profile.service';
-import {API_ENDPOINT} from '../constants';
 import {Observable, Subject} from 'rxjs';
 import {Router} from '@angular/router';
 
